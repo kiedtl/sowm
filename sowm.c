@@ -132,7 +132,7 @@ void button_release() {
 void win_add(Window w) {
     client *c;
 
-    if (!(c = (client *) malloc(sizeof(client))))
+    if (!(c = (client *) calloc(1, sizeof(client))))
          exit(1);
 
     c->w    = w;
@@ -154,6 +154,7 @@ void win_del(Window w) {
             p->next = c->next;
 
         free(c);
+        ws_save(ws);
         return;
     }
 }

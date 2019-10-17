@@ -37,7 +37,7 @@ static void notify_motion(XEvent *e);
 static void run(const Arg arg);
 static void win_add(Window w);
 static void win_center(const Arg arg);
-static void win_del(Window w);
+static client *win_del(client *c, Window w);
 static void win_fs();
 static void win_kill();
 static void win_next();
@@ -81,7 +81,7 @@ Window win_current() {
 }
 
 void notify_destroy(XEvent *e) {
-    win_del(e->xdestroywindow.window);
+    list = win_del(list, e->xdestroywindow.window);
 
     if (list) win_focus(win_current() == root ? list->w : cur);
 }
@@ -130,52 +130,31 @@ void button_release() {
 }
 
 void win_add(Window w) {
-    client *c, *t;
+    client *c;
 
-    if (!(c = (client *)calloc(1, sizeof(client))))
-        exit(1);
+    if (!(c = (client *) malloc(sizeof(client))))
+         exit(1);
 
-    if (!list) {
-        c->next = c->prev = 0;
-        c->w    = w;
-        list    = c;
-
-    } else {
-        for (t=list;t->next;t=t->next);
-
-        c->next = 0;
-        c->prev = t;
-        c->w    = w;
-        t->next = c;
-    }
+    c->w    = w;
+    c->next = list;
+    list    = c;
 
     ws_save(ws);
 }
 
-void win_del(Window w) {
-    for win if (c->w == w) {
-        if (!c->prev && !c->next) {
-            free(list);
-            list = 0;
-            ws_save(ws);
-            return;
-        }
+static client *win_del(client *c, Window w) {
+    client *n;
 
-        if (!c->prev) {
-            list = c->next;
-            c->next->prev = 0;
+    if (!c) return 0;
 
-        } else if (!c->next) {
-            c->prev->next = 0;
+    if (c->w == w) {
+        n = c->next;
+         free(c);
+        return n;
 
-        } else {
-            c->prev->next = c->next;
-            c->next->prev = c->prev;
-        }
-
-        free(c);
-        ws_save(ws);
-        return;
+    } else {
+        c->next = win_del(c->next, w);
+        return c;
     }
 }
 
@@ -215,7 +194,7 @@ void win_to_ws(const Arg arg) {
     ws_save(arg.i);
 
     ws_sel(tmp);
-    win_del(cur);
+    list = win_del(list, cur);
     XUnmapWindow(d, cur);
     ws_save(tmp);
 

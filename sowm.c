@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdio.h>
 
 typedef union {
     const char** com;
@@ -135,7 +136,10 @@ void win_add(Window w) {
     if (!(c = (client *) calloc(1, sizeof(client))))
          exit(1);
 
-    c->w    = w;
+    c->w = w;
+
+    if (list) list->prev = c;
+
     c->next = list;
     list    = c;
 
@@ -143,15 +147,11 @@ void win_add(Window w) {
 }
 
 void win_del(Window w) {
-    client *p = 0;
-
-    for (client *c=list;c;p=c,c=c->next) {
-        if (c->w != w) continue;
-
+    for win if (c->w == w) {
         if (c == list)
             list = list->next;
-        else
-            p->next = c->next;
+        else if (c->prev)
+            c->prev->next = c->next;
 
         free(c);
         ws_save(ws);
@@ -195,8 +195,8 @@ void win_to_ws(const Arg arg) {
     ws_save(arg.i);
 
     ws_sel(tmp);
-    win_del(cur);
     XUnmapWindow(d, cur);
+    win_del(cur);
     ws_save(tmp);
 
     if (list) win_focus(list->w);

@@ -3,27 +3,27 @@
 
 #define MOD Mod4Mask
 
-const char* menu[]    = {"dmenu_run",      0};
-const char* term[]    = {"st",             0};
-const char* scrot[]   = {"scr",            0};
-const char* briup[]   = {"bri", "10", "+", 0};
-const char* bridown[] = {"bri", "10", "-", 0};
-const char* voldown[] = {"amixer", "sset", "Master", "5%-",         0};
-const char* volup[]   = {"amixer", "sset", "Master", "5%+",         0};
-const char* volmute[] = {"amixer", "sset", "Master", "toggle",      0};
-const char* colors[]  = {"bud", "/home/goldie/Pictures/Wallpapers", 0};
+const char* menu[]    = { "ndmen",                                       NULL };
+const char* term[]    = { "xterm",                                       NULL };
+const char* scrot[]   = { "scr",                                         NULL };
+const char* briup[]   = { "xbacklight", "-inc", "10",                    NULL };
+const char* bridown[] = { "xbacklight", "-dec", "10",                    NULL };
+const char* voldown[] = { "amixer",     "sset", "Master", "5%-",         NULL };
+const char* volup[]   = { "amixer",     "sset", "Master", "5%+",         NULL };
+const char* volmute[] = { "amixer",     "sset", "Master", "toggle",      NULL };
+const char* colors[]  = { "bud", "/home/kiedtl/img/wallpapers",          NULL };
 
 static struct key keys[] = {
-    {MOD,      XK_q,   win_kill,   {0}},
-    {MOD,      XK_c,   win_center, {0}},
-    {MOD,      XK_f,   win_fs,     {0}},
+    {MOD|ShiftMask, XK_q,   win_kill,   {0}},
+    {MOD,           XK_c,   win_center, {0}},
+    {MOD,           XK_f,   win_fs,     {0}},
 
-    {Mod1Mask,           XK_Tab, win_next,   {0}},
-    {Mod1Mask|ShiftMask, XK_Tab, win_prev,   {0}},
+    {MOD,           XK_j, win_next,   {0}},
+    {MOD|ShiftMask, XK_k, win_prev,   {0}},
 
-    {MOD, XK_d,      run, {.com = menu}},
+    {MOD, XK_p,      run, {.com = menu}},
     {MOD, XK_w,      run, {.com = colors}},
-    {MOD, XK_p,      run, {.com = scrot}},
+    {MOD, XK_s,      run, {.com = scrot}},
     {MOD, XK_Return, run, {.com = term}},
 
     {0,   XF86XK_AudioLowerVolume,  run, {.com = voldown}},

@@ -19,7 +19,17 @@ static struct key keys[] = {
     {MOD,           XK_f,   win_fs,     {0}},
 
     {MOD,           XK_j, win_next,   {0}},
-    {MOD|ShiftMask, XK_k, win_prev,   {0}},
+    {MOD,           XK_k, win_prev,   {0}},
+
+    {MOD|ControlMask, XK_k,  win_move,  {.com = (const char*[]){"move",   "n"}, .i = 10}},
+    {MOD|ControlMask, XK_j,  win_move,  {.com = (const char*[]){"move",   "s"}, .i = 10}},
+    {MOD|ControlMask, XK_l,  win_move,  {.com = (const char*[]){"move",   "e"}, .i = 10}},
+    {MOD|ControlMask, XK_h,  win_move,  {.com = (const char*[]){"move",   "w"}, .i = 10}},
+
+    {MOD|ShiftMask, XK_k,  win_move,  {.com = (const char*[]){"resize", "n"}, .i = 10}},
+    {MOD|ShiftMask, XK_j,  win_move,  {.com = (const char*[]){"resize", "s"}, .i = 10}},
+    {MOD|ShiftMask, XK_l,  win_move,  {.com = (const char*[]){"resize", "e"}, .i = 10}},
+    {MOD|ShiftMask, XK_h,  win_move,  {.com = (const char*[]){"resize", "w"}, .i = 10}},
 
     {MOD, XK_p,      run, {.com = menu}},
     {MOD, XK_w,      run, {.com = colors}},

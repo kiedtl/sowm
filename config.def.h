@@ -3,6 +3,7 @@
 
 #define MOD Mod4Mask
 
+const char* wm_die[]  = { "pkill", "Xorg",                               NULL };
 const char* menu[]    = { "ndmen",                                       NULL };
 const char* term[]    = { "xterm",                                       NULL };
 const char* scrot[]   = { "scr",                                         NULL };
@@ -11,9 +12,11 @@ const char* bridown[] = { "xbacklight", "-dec", "10",                    NULL };
 const char* voldown[] = { "amixer",     "sset", "Master", "5%-",         NULL };
 const char* volup[]   = { "amixer",     "sset", "Master", "5%+",         NULL };
 const char* volmute[] = { "amixer",     "sset", "Master", "toggle",      NULL };
-const char* colors[]  = { "bud", "/home/kiedtl/img/wallpapers",          NULL };
+const char* colors[]  = { "wal", "-i", "/home/kiedtl/img/wallpapers/",   NULL };
 
 static struct key keys[] = {
+    {MOD|ShiftMask, XK_e,   run,        {.com = wm_die}},
+
     {MOD|ShiftMask, XK_q,   win_kill,   {0}},
     {MOD,           XK_c,   win_center, {0}},
     {MOD,           XK_f,   win_fs,     {0}},
